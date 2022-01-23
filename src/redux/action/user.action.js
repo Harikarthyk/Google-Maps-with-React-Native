@@ -1,13 +1,13 @@
 import { ADD_USER, REMOVE_USER } from "./actionTypes";
 
-export const ADD_USER = (data) => {
+export const addUser = (data) => {
     return{
         type: ADD_USER,
         payload: data
     }
 };
 
-export const REMOVE_USER = () => {
+export const removeUser = () => {
     return{
         type: REMOVE_USER
     }

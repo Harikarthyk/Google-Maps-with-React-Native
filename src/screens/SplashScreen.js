@@ -10,7 +10,7 @@ function SplashScreen({ navigation }) {
     useEffect(()=>{
 
         setTimeout(()=>{
-            // navigation.replace("HomeScreen");
+            navigation.replace("HomeScreen");
         }, 2000);
         
 

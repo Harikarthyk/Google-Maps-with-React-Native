@@ -4,7 +4,8 @@ import {
     SplashScreen,
     HomeScreen,
     SettingScreen,
-    MapScreen
+    MapScreen,
+    RoomScreen
 } from '../screens';
 
 const MainNavigator = createStackNavigator();
@@ -20,7 +21,12 @@ export default MainStackNavigation = () => {
             <MainNavigator.Screen
                 name="SplashScreen"
                 component={SplashScreen}
+            /> 
+            <MainNavigator.Screen
+                name="RoomScreen"
+                component={RoomScreen}
             />
+        
             <MainNavigator.Screen
                 name="SettingScreen"
                 component={SettingScreen}
@@ -38,5 +44,3 @@ export default MainStackNavigation = () => {
         </MainNavigator.Navigator>
     );
 }
-
-// export default MainStackNavigation;
