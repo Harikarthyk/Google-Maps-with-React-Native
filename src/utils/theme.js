@@ -7,7 +7,8 @@ export const theme = {
         ...DefaultTheme.colors,
         white: "#ffffff",
         black: "#000000",
-        paragraph: "gray"
+        paragraph: "gray",
+        primary: "#37224d"
     },
     fontSize: {
         medium: normalize(18),

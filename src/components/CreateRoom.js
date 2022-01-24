@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import normalize from 'react-native-normalize';
 import navigation from '../navigation';
+import { theme } from '../utils/theme';
 import TextInput from './TextInput';
 
 function CreateRoom({ createRoom, addUser, navigation }) {
@@ -80,8 +81,9 @@ function CreateRoom({ createRoom, addUser, navigation }) {
             />
             <TouchableOpacity 
                 onPress={createRoomHandler}
+                style={styles.button}
             >
-                <Text>
+                <Text style={styles.buttonText}>
                     Create Room
                 </Text>
             </TouchableOpacity>
@@ -94,11 +96,27 @@ const styles = StyleSheet.create({
         flex: 1
     },
     textInput: {
-        backgroundColor: "white",
+        backgroundColor: "#dbdbdb",
         padding: normalize(5),
         marginVertical: normalize(15),
-        width: "80%",
+        width: "92%",
         alignSelf: "center"
+    },
+    button: {
+        padding: normalize(15),
+        width: "92%",
+        alignSelf: "center",
+        borderRadius: normalize(5),
+        backgroundColor: theme.colors.primary,
+        elevation: 11,
+        shadowColor: theme.colors.white,
+        shadowOpacity: 10
+    },
+    buttonText: {
+        color: theme.colors.white,
+        fontWeight: theme.fontWeight.medium,
+        fontSize: theme.fontSize.subheading,
+        textAlign: "center"
     }
 })
 
