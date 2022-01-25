@@ -8,9 +8,9 @@ import TextInput from './TextInput';
 function CreateRoom({ createRoom, addUser, navigation }) {
 
     const [state, setState] = useState({
-        name: "",
-        longitude: "",
-        latitude: "",
+        name: "Hari",
+        latitude: "11.0082371",
+        longitude: "77.021472",
         search: ""
     });
 
@@ -38,7 +38,7 @@ function CreateRoom({ createRoom, addUser, navigation }) {
 
         createRoom(room);
 
-        navigation.navigate("MapScreen");
+        navigation.navigate("MapScreen", { room: roomId, currUser: user, longitude: state.longitude, latitude: state.latitude });
 
 
     }
@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
         textAlign: "center"
     }
 })
+
 
 
 export default CreateRoom;

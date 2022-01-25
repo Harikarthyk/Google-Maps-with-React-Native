@@ -58,15 +58,15 @@ export default App = () => {
 // const SOCKET_URL = `https://b470-2405-201-e017-3bbb-706b-ba75-50e3-a982.ngrok.io`;
 // const { width, height } = Dimensions.get("window");
 // const ASPECT_RATIO = width / height;
-// const LATITUDE = 37.78825;
-// const LONGITUDE = -122.4324;
+// const LATITUDE = 11.003557;
+// const LONGITUDE = 77.014863;
 // const LATITUDE_DELTA = 0.0021;
 // const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 // export default class App extends Component {
 //   state = {
-//     destinationLatitude: 11.004254207994313,
-//     destinationLongitude: 77.01504359623311,
+//     destinationLatitude: 11.008237,
+//     destinationLongitude: 77.021472,
 //     latitude: LATITUDE,
 //     longitude: LONGITUDE,
 //     routeCoordinates: [],
@@ -85,31 +85,31 @@ export default App = () => {
 //   }
 
 //   componentDidMount = async () => {
-//     this.socket = io(SOCKET_URL);
+//     // this.socket = io(SOCKET_URL);
 
 //     // console.log(this.socket);
 
-//     const userId = "123456789";
+//     // const userId = "123456789";
 
-//     const arg1 = {
-//       room: userId,
-//       name: "Hari"
-//     }
+//     // const arg1 = {
+//     //   room: userId,
+//     //   name: "Hari"
+//     // }
 
-//     this.socket.emit("join", arg1);
+//     // this.socket.emit("join", arg1);
 
-//     this.socket.on("joined", (arg1) => {
-//       console.log("joined", arg1);
-//       this.setState({
-//         console: arg1
-//       })
-//     });
-//     this.socket.on("sendUpdate", (arg1) => {
-//       console.log("updates", arg1);
-//       this.setState({
-//         console: this.state.console+ " "  + arg1?.coordinate?.latitude + " "
-//       })
-//     });
+//     // this.socket.on("joined", (arg1) => {
+//     //   console.log("joined", arg1);
+//     //   this.setState({
+//     //     console: arg1
+//     //   })
+//     // });
+//     // this.socket.on("sendUpdate", (arg1) => {
+//     //   console.log("updates", arg1);
+//     //   this.setState({
+//     //     console: this.state.console+ " "  + arg1?.coordinate?.latitude + " "
+//     //   })
+//     // });
 
 //     this.watchLocation();
 //   }
@@ -179,11 +179,11 @@ export default App = () => {
 //   componentDidUpdate = (prevProps, prevState) => {
 //     // console.log(prevProps,"   " ,prevState)
 //     if (this.state.latitude !== prevState.latitude) {
-//       this.socket.emit("update", {
-//         coordinate: {latitude: this.state.latitude, longitude: this.state.longitude},
-//         room: "123456789",
-//         user: "Hari"
-//       });
+//       // this.socket.emit("update", {
+//       //   coordinate: {latitude: this.state.latitude, longitude: this.state.longitude},
+//       //   room: "123456789",
+//       //   user: "Hari"
+//       // });
 
 //       // this.pubnub.publish({
 //       //   message: {
@@ -297,7 +297,7 @@ export default App = () => {
 //                   title="Destination"
 
 //                 />
-//                 <MarkerAnimated
+//                 {/* <MarkerAnimated
 //                   // ref={marker => {
 //                   //   this.marker = marker;
 //                   // }}
@@ -308,8 +308,8 @@ export default App = () => {
 //                   }}
 //                   zIndex={1}
 //                   pinColor={"#24252e"}
-//                 />
-//                 <Circle
+//                 /> */}
+//                 {/* <Circle
 //                   ref={marker => {
 //                     this.marker = marker;
 //                   }}
@@ -323,7 +323,7 @@ export default App = () => {
 //                   strokeColor={"#ababab"}
 //                   lineJoin="miter"
 //                   zIndex={1}
-//                 />
+//                 /> */}
 //                 {
 //                   this.state.loading === false
 //                     ?
@@ -333,9 +333,9 @@ export default App = () => {
 //                         longitude: Number(this.state.longitude)
 //                       }}
 //                       destination={{
-//                         latitude: this.state.destinationLatitude,
-//                         longitude: this.state.destinationLongitude
-//                       }}
+//                         latitude: Number(this.state.destinationLatitude),
+//                         longitude: Number(this.state.destinationLongitude)
+//                      }}
 //                       apikey={"AIzaSyDejMEw7iAaAFt7QvmHDhiY1NpZK7R-MRw"}
 //                       strokeWidth={13}
 //                       strokeColor="#669DF6"

@@ -7,7 +7,7 @@ const userReducer = (state = initialState, action) => {
         case Actions.ADD_USER:
             const { user } = action.payload
             return {
-                ...user
+                user
             };
         case Actions.REMOVE_USER:
             return {};

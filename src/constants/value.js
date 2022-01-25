@@ -1,0 +1,11 @@
+const SOCKET_URL = "";
+const LATITUDE = 37.78825;
+const LONGITUDE = -122.4324;
+const LATITUDE_DELTA = 0.0021;
+
+export default{
+    SOCKET_URL,
+    LATITUDE,
+    LONGITUDE,
+    LATITUDE_DELTA
+};
