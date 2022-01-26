@@ -5,13 +5,11 @@ import navigation from '../navigation';
 import { theme } from '../utils/theme';
 import TextInput from './TextInput';
 
-function CreateRoom({ createRoom, addUser, navigation }) {
+function JoinRoom({ createRoom, addUser, navigation }) {
 
     const [state, setState] = useState({
         name: "Hari",
-        latitude: "11.0082371",
-        longitude: "77.021472",
-        search: ""
+        room: "",
     });
 
     const onChangeText = (key, value) => {
@@ -21,26 +19,17 @@ function CreateRoom({ createRoom, addUser, navigation }) {
         });
     }
 
-    const createRoomHandler = () => {
-
-        const roomId = Math.random().toString().substr(2, 6);
-
+    const joinRoomHandler = () => {
+        
+        addUser({
+            user: state.name+"_2",
+        });
         const room = {
-            id: roomId,
+            id: state.room,
             members: []
         };
-        const user = state.name + "_1";
-
-
-        addUser({
-            user: user,
-        });
-
         createRoom(room);
-
-        navigation.navigate("MapScreen", { room: roomId, currUser: user, longitude: state.longitude, latitude: state.latitude, isAdmin: true, isMember: false });
-
-
+        navigation.navigate("MapScreen", { room: room, currUser:  state.name, isMember: true, isAdmin: false });
     }
 
 
@@ -59,32 +48,21 @@ function CreateRoom({ createRoom, addUser, navigation }) {
             />
             <TextInput
                 keyboardType={"numeric"}
-                label={"Latitude"}
+                label={"Room Id"}
                 onChangeText={(value) => {
-                    onChangeText("latitude", value);
+                    onChangeText("room", value);
                 }}
                 mode="flat"
                 style={styles.textInput}
 
-                value={state.latitude}
-            />
-            <TextInput
-                keyboardType={"numeric"}
-                label={"Longitude"}
-                onChangeText={(value) => {
-                    onChangeText("longitude", value);
-                }}
-                mode="flat"
-                style={styles.textInput}
-
-                value={state.longitude}
+                value={state.room}
             />
             <TouchableOpacity 
-                onPress={createRoomHandler}
+                onPress={joinRoomHandler}
                 style={styles.button}
             >
                 <Text style={styles.buttonText}>
-                    Create Room
+                    Join Room
                 </Text>
             </TouchableOpacity>
         </View>
@@ -122,4 +100,4 @@ const styles = StyleSheet.create({
 
 
 
-export default CreateRoom;
+export default JoinRoom;

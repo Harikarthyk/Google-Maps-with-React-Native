@@ -3,6 +3,7 @@ import { KeyboardAvoidingView, SafeAreaView, ScrollView, StyleSheet } from 'reac
 import { connect } from 'react-redux';
 import CreateRoom from '../components/CreateRoom';
 import Header from '../components/Header'
+import JoinRoom from '../components/JoinScreen';
 import { createRoom } from '../redux/action/room.action';
 import { addUser } from '../redux/action/user.action';
 import { theme } from '../utils/theme'
@@ -18,7 +19,7 @@ function RoomScreen({ navigation, route, addUser, createRoom }) {
                 return <CreateRoom createRoom={createRoom} addUser={addUser} navigation={navigation} />;
             case "join":
                 return(
-                    <CreateRoom />
+                    <JoinRoom createRoom={createRoom} addUser={addUser} navigation={navigation} />
                 )
 
         }

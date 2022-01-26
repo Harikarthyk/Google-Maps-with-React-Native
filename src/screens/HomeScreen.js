@@ -32,7 +32,7 @@ function HomeScreen({ navigation }) {
             <TouchableOpacity
                 style={styles.button}
                 onPress={()=>{
-                    navigation.navigation("RoomScreen", {
+                    navigation.navigate("RoomScreen", {
                         title: "Join Room",
                         navigation: navigation,
                         id: "join"

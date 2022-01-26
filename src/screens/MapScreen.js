@@ -28,7 +28,7 @@ import { theme } from "../utils/theme";
 
 
 // Constants
-const SOCKET_URL = `https://b470-2405-201-e017-3bbb-706b-ba75-50e3-a982.ngrok.io`;
+const SOCKET_URL = `https://3e52-2405-201-e017-30b7-e08a-6a4-b2f1-16b4.ngrok.io`;
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE = 11.003557;
@@ -54,31 +54,46 @@ class MapScreen extends Component {
                 longitude: LONGITUDE
             }),
             loading: true,
-            isConnected: false
+            isConnected: false,
+            members: [],
+            isAdmin: this.props.route.params.isAdmin ? true : false
         };
     } 
     componentDidMount = async () => {
-        // this.socket = io(SOCKET_URL);
+        this.socket = io(SOCKET_URL);
 
-        // const arg1 = {
-        //     room: userId,
-        //     name: "Hari"
-        // }
 
-        // this.socket.emit("join", arg1);
 
-        // this.socket.on("joined", (arg1) => {
-        //     console.log("joined", arg1);
-        //     this.setState({
-        //         console: arg1
-        //     })
-        // });
-        // this.socket.on("sendUpdate", (arg1) => {
-        //     console.log("updates", arg1);
-        //     this.setState({
-        //         console: this.state.console + " " + arg1?.coordinate?.latitude + " "
-        //     })
-        // });
+        this.socket.on("joined", (arg1) => {
+
+            console.log("joined", arg1);
+            let members = this.state.members;
+            if(arg1.isAdmin === true && this.props.user.user !== arg1.name){
+                console.log(arg1, "helo")
+                let arr = this.state.members.filter(item => item.name !== arg1.name)
+                arr.push(arg1);
+          
+                this.setState({
+                    destinationLatitude: arg1.destinationCords.latitude,
+                    destinationLongitude: arg1.destinationCords.longitude,
+                    members:[...arr],
+                    isAdmin: this.state.isAdmin === false ? (arg1?.isAdmin ? true : false) : true
+                
+                });
+            }else{
+                let arr = this.state.members.filter(item => item.name !== arg1.name)
+                arr.push(arg1);
+          this.setState({
+                    members:[...arr],
+                    isAdmin: this.state.isAdmin === false ? (arg1?.isAdmin ? true : false) : true
+                })
+            }
+        });
+        this.socket.on("sendUpdate", (arg1) => {
+            console.log("updates", arg1);
+            
+        });
+
 
         this.watchLocation();
     }
@@ -112,7 +127,18 @@ class MapScreen extends Component {
                 } else {
                     coordinate.timing(newCoordinate).start();
                 }
-
+                const arg1 = {
+                    coordinate: { latitude: latitude, longitude: longitude },
+                    room: this.props.room.id,
+                    name: this.props.user.user,
+                    isAdmin: this.props.route.params.isAdmin ? true : false,
+                    destinationCords:{
+                        latitude: this.props.route.params.isAdmin ? this.state.destinationLatitude : null,
+                        longitude:this.props.route.params.isAdmin ? this.state.destinationLongitude : null
+                    }
+                }
+        
+                this.socket.emit("join", arg1);
                 this.setState({
                     latitude,
                     longitude,
@@ -150,26 +176,22 @@ class MapScreen extends Component {
     componentDidUpdate = (prevProps, prevState) => {
         // console.log(prevProps,"   " ,prevState)
         if (this.state.latitude !== prevState.latitude) {
-            // this.socket.emit("update", {
-            //     coordinate: { latitude: this.state.latitude, longitude: this.state.longitude },
-            //     room: "123456789",
-            //     user: "Hari"
-            // });
+            this.socket.emit("update", {
+                coordinate: { latitude: this.state.latitude, longitude: this.state.longitude },
+                room: this.props.room.id,
+                user: this.props.user.user
+            });
 
-            // this.pubnub.publish({
-            //   message: {
-            //     latitude: this.state.latitude,
-            //     longitude: this.state.longitude,
-            //   },
-            //   channel: 'location',
-            // });
-            // this.socket.emit
         }
     }
 
     render() {
         return (
             <SafeAreaView style={styles.container}>
+                {console.log(this.state.members, "meme")}
+                {
+                    this.state.isAdmin === true ?
+                
                 <MapView
                     style={styles.map}
                     provider={PROVIDER_GOOGLE}
@@ -185,13 +207,33 @@ class MapScreen extends Component {
                     />
                     <MarkerAnimated
                         coordinate={{
-                            latitude: Number(this.props.route.params.latitude),
-                            longitude: Number(this.props.route.params.longitude)
+                            latitude: Number(this.state?.destinationLongitude || 11.003795),
+                            longitude: Number(this.state?.destinationLatitude || 77.014790)
                         }}
                         title="Destination"
 
                     />
-                    <MarkerAnimated
+                    {this.state?.members?.map((item,index) => {
+                        return(
+                            <MarkerAnimated
+                                // ref={marker => {
+                                //   this.marker = marker;
+                                // }}
+                                title={`${item.name} is here.`}
+                                coordinate={{
+                                    // latitude: 11.003795,
+                                    // longitude: 77.014790
+                                    latitude: Number(item.coordinate?.latitude ||  11.003795),
+                                    longitude: Number(item.coordinate?.longitude || 77.014790)
+                                }}
+                                key={item.user + index + ""}
+                                zIndex={1}
+                                pinColor={'#' + Math.random().toString(16).substr(-6)}
+                            >
+                            </MarkerAnimated>
+                        )
+                    })}
+                    {/* <MarkerAnimated
                         // ref={marker => {
                         //   this.marker = marker;
                         // }}
@@ -202,7 +244,7 @@ class MapScreen extends Component {
                         }}
                         zIndex={1}
                         pinColor={"#24252e"}
-                    />
+                    /> */}
                     <Circle
                         ref={marker => {
                             this.marker = marker;
@@ -220,7 +262,7 @@ class MapScreen extends Component {
                     />
 
                     {
-                        this.state.loading === false ?
+                        this.state.loading === false ? this.state?.destinationLatitude &&this.state?.destinationLongitude &&
                             <MapViewDirections
                                 origin={{
                                     latitude: this.state.latitude,
@@ -242,7 +284,8 @@ class MapScreen extends Component {
                         <></>
                     }
                 </MapView>
-                {console.log(this.props.room)}
+                :<></>
+    }
                 <View 
                     style={{
                         width: normalize(100),
@@ -265,7 +308,7 @@ class MapScreen extends Component {
                             fontWeight: theme.fontWeight.medium
                         }}
                     >
-                        {this.props.room?.members?.length + 1}
+                        {this.state?.members?.length + 1}
                     </Text>
                     <Text 
                         style={{
