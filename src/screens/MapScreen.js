@@ -28,7 +28,7 @@ import { theme } from "../utils/theme";
 
 
 // Constants
-const SOCKET_URL = `https://3e52-2405-201-e017-30b7-e08a-6a4-b2f1-16b4.ngrok.io`;
+const SOCKET_URL = `https://9826-2405-201-e017-316c-5c84-baf1-a419-c361.ngrok.io`;
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE = 11.003557;
@@ -58,6 +58,7 @@ class MapScreen extends Component {
             members: [],
             isAdmin: this.props.route.params.isAdmin ? true : false
         };
+        this.myRef = React.createRef();
     } 
     componentDidMount = async () => {
         this.socket = io(SOCKET_URL);
@@ -80,6 +81,7 @@ class MapScreen extends Component {
                     isAdmin: this.state.isAdmin === false ? (arg1?.isAdmin ? true : false) : true
                 
                 });
+                this.myRef.current = [...arr];
             }else{
                 let arr = this.state.members.filter(item => item.name !== arg1.name)
                 arr.push(arg1);
@@ -87,6 +89,8 @@ class MapScreen extends Component {
                     members:[...arr],
                     isAdmin: this.state.isAdmin === false ? (arg1?.isAdmin ? true : false) : true
                 })
+
+                this.myRef.current = [...arr];
             }
         });
         this.socket.on("sendUpdate", (arg1) => {
@@ -213,7 +217,7 @@ class MapScreen extends Component {
                         title="Destination"
 
                     />
-                    {this.state?.members?.map((item,index) => {
+                    {this.myRef?.current?.map((item,index) => {
                         return(
                             <MarkerAnimated
                                 // ref={marker => {
@@ -245,7 +249,7 @@ class MapScreen extends Component {
                         zIndex={1}
                         pinColor={"#24252e"}
                     /> */}
-                    <Circle
+                    {/* <Circle
                         ref={marker => {
                             this.marker = marker;
                         }}
@@ -259,7 +263,7 @@ class MapScreen extends Component {
                         strokeColor={"#ababab"}
                         lineJoin="miter"
                         zIndex={1}
-                    />
+                    /> */}
 
                     {
                         this.state.loading === false ? this.state?.destinationLatitude &&this.state?.destinationLongitude &&
